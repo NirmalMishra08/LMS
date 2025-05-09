@@ -5,18 +5,22 @@ import { LayoutDashboard } from 'lucide-react';
 import { redirect } from 'next/navigation';
 
 import React from 'react'
+import TitleForm from './_components/title-form';
+import DescriptionForm from './_components/description-form';
 
-const page = async ({ params }: { params: { courseId: string } }) => {
+
+const Page = async ({ params }: { params: { courseId: string } }) => {
 
     const { userId } = await auth();
     if (!userId) {
         return redirect("/")
     }
+    const paramsId = await params;
 
     const course = await db.course.findUnique({
         where:
         {
-            id: params.courseId
+            id: paramsId.courseId
         }
     })
     if (!course) {
@@ -37,8 +41,11 @@ const page = async ({ params }: { params: { courseId: string } }) => {
 
 
     return (
-        <div className='p-6'>
-            <div className='flex justify-center items-center '>
+        <div className='flex  gap-y-6'>
+
+        
+        <div className='p-5'>
+            <div className='flex flex-col  '>
                 <div className='flex flex-col gap-y-2'>
                     <h1 className='text-2xl font-medium'>
                         Course Setup
@@ -57,12 +64,15 @@ const page = async ({ params }: { params: { courseId: string } }) => {
                             </h2>
                         </div>
                         <TitleForm initialData={course} courseId={course.id}/>
+                        <DescriptionForm initialData={course} courseId={course.id}/>
+
                     </div>
                 </div>
 
             </div>
         </div>
+        </div>
     )
 }
 
-export default page
+export default Page
