@@ -13,23 +13,23 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Textarea } from '@/components/ui/textarea'
+
+import { Combobox } from '@/components/ui/combobox'
 
 
 
 
-interface DescriptionFormProps {
+interface CategoryFormProps {
     initialData:Course 
     courseId: string;
+    options:{ label:string,value:string }[],
 };
 
 const formSchema = z.object({
-    description: z.string().min(1, {
-        message: "Description is required"
-    })
+    categoryId: z.string().min(1),
 })
 
-const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps) => {
+const CategoryForm = ({ initialData, courseId , options }: CategoryFormProps) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const toggleEdit = () => {
@@ -41,7 +41,7 @@ const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            description: initialData.description || ""
+            categoryId: initialData.categoryId || ""
         }
     })
 
@@ -52,7 +52,7 @@ const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps) => {
             console.log(values)
             await axios.patch(`/api/courses/${courseId}`, values);
 
-            toast.success("Course description updated successfully");
+            toast.success("Course Category updated successfully");
             toggleEdit();
             router.refresh();
 
@@ -60,6 +60,9 @@ const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps) => {
             toast.error("Something went wrong");
         }
     }
+
+    const selectedOption = options.find((option)=> option.value === initialData.categoryId);
+    
 
 
     return (
@@ -87,9 +90,9 @@ const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps) => {
                 !isEditing && (
                     <p className={cn(
                         "text-sm mt-2 ",
-                        !initialData.description && "text-slate-500 italic"
+                        !initialData.categoryId && "text-slate-500 italic"
                     )}>
-                        {initialData.description || "No description"}
+                        {selectedOption?.label || "No description"}
                     </p>
                 )
             }
@@ -97,12 +100,13 @@ const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps) => {
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 mt-4' >
-                        <FormField control={form.control} name='description' render={({
+                        <FormField control={form.control} name='categoryId' render={({
                             field
                         }) => (
                             <FormItem>
                                 <FormControl>
-                                    <Textarea  className='bg-white resize-none ' disabled={isSubmitting} placeholder="e.g. 'This course is about...' " {...field} />
+                                   <Combobox options={options}  {...field}  /> 
+                                   {/* options={...options} */}
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -123,4 +127,4 @@ const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps) => {
     )
 }
 
-export default DescriptionForm
+export default CategoryForm

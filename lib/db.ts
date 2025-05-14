@@ -1,6 +1,5 @@
 // File: lib/db.ts or utils/db.ts
-import { PrismaClient } from '@/lib/generated/prisma';
-
+import { PrismaClient } from "@/prisma/lib/generated/prisma";
 // ✅ This is a type-only declaration (okay to use var here)
 declare global {
   var prisma: PrismaClient | undefined;
