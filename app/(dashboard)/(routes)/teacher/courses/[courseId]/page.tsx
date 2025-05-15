@@ -25,6 +25,13 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
         where:
         {
             id: paramsId.courseId
+        },
+        include:{
+            attachment:{
+                orderBy:{
+                    createdAt:'desc'
+                }
+            }
         }
     })
 
