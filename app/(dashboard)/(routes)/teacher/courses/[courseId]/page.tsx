@@ -26,10 +26,10 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
         {
             id: paramsId.courseId
         },
-        include:{
-            attachment:{
-                orderBy:{
-                    createdAt:'desc'
+        include: {
+            attachment: {
+                orderBy: {
+                    createdAt: 'desc'
                 }
             }
         }
@@ -103,9 +103,7 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
                                     </h2>
 
                                 </div>
-                                <div>
-                                    Todo:chapters
-                                </div>
+                                <DescriptionForm initialData={course} courseId={course.id} />
 
                             </div>
                             <div>

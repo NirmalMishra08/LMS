@@ -10,7 +10,7 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
         if (!userId) {
             return new Response("Unauthorized", { status: 401 })
         }
-        const courseId = params.courseId;
+        const courseId = await params.courseId;
 
         const course = await db.course.update({
             where: {
