@@ -5,7 +5,7 @@ const f = createUploadthing();
 
 const handleAuth = async () => {
   const { userId } = await auth();
-  console.log("User ID:    ", userId); // Log the user ID for debugging
+  console.log("User ID:", userId); // Log the user ID for debugging
   if (!userId) {
     throw new Error("Unauthorized");
   }
