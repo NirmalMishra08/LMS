@@ -1,9 +1,10 @@
+
 "use client"
 import React, { useState } from 'react'
 import * as z from "zod"
 import { Chapter } from '@/prisma/lib/generated/prisma'
 import { useForm } from "react-hook-form"
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Pencil } from 'lucide-react'
@@ -17,21 +18,22 @@ import { cn } from '@/lib/utils'
 import { Editor } from '@/components/editor'
 
 import { Preview } from '@/components/preview'
+import { Checkbox } from '@/components/ui/checkbox'
 
 
 
 
-interface ChapterDescriptionFormProps {
-    initialData:Chapter 
+interface ChapterAccessFormProps {
+    initialData: Chapter
     courseId: string;
-    chapterId:string
+    chapterId: string
 };
 
 const formSchema = z.object({
-    description: z.string().min(1)
+    isFree: z.boolean().default(false)
 })
 
-const ChapterDescriptionForm = ({ initialData, courseId ,chapterId}: ChapterDescriptionFormProps) => {
+const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFormProps) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const toggleEdit = () => {
@@ -43,7 +45,7 @@ const ChapterDescriptionForm = ({ initialData, courseId ,chapterId}: ChapterDesc
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            description: initialData.description || ""
+            isFree: Boolean(initialData.isFree)
         }
     })
 
@@ -67,7 +69,7 @@ const ChapterDescriptionForm = ({ initialData, courseId ,chapterId}: ChapterDesc
     return (
         <div className='mt-6 border bg-slate-100 rounded-md p-4'>
             <div className='font-medium flex items-center justify-between gap-1    '>
-                Chapter Description
+                Chapter Access 
                 <Button onClick={toggleEdit} variant={"ghost"}>
                     {
                         isEditing ? (
@@ -77,7 +79,7 @@ const ChapterDescriptionForm = ({ initialData, courseId ,chapterId}: ChapterDesc
                         ) : (
                             <>
                                 <Pencil className='h-4 w-4 mr-2' />
-                                Edit Description
+                                Edit Access
                             </>
                         )
                     }
@@ -89,14 +91,18 @@ const ChapterDescriptionForm = ({ initialData, courseId ,chapterId}: ChapterDesc
                 !isEditing && (
                     <div className={cn(
                         "text-sm mt-2 ",
-                        !initialData.description && "text-slate-500 italic"
+                        !initialData.isFree && "text-slate-500 italic"
                     )}>
-                        {!initialData.description && "No description"}
-                        {
-                            initialData.description && (
-                                <Preview value={initialData.description} />
-                            )
-                        }
+                       {
+                        initialData.isFree?(
+                        <> This chapter is free for preview
+                        </>
+
+                        ):(
+                            <>This chapter is not free for preview
+                            </>
+                        )
+                       }
                     </div>
                 )
             }
@@ -104,15 +110,22 @@ const ChapterDescriptionForm = ({ initialData, courseId ,chapterId}: ChapterDesc
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 mt-4' >
-                        <FormField control={form.control} name='description' render={({
+                        <FormField control={form.control} name='isFree' render={({
                             field
                         }) => (
-                            <FormItem>
+                            <FormItem className='flex flex-row items-start space-x-3 space-y-0 border p-4 rounded-md  '>
                                 <FormControl>
-                                    <Editor  
-                                     {...field} />
+                                    <Checkbox
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                    />
                                 </FormControl>
-                                <FormMessage />
+                                <div className='space-y-1 leading-none'>
+                                    <FormDescription>
+                                        Check this box if you want to make this chapter  free for preview
+                                    </FormDescription>
+                                </div>
+
                             </FormItem>
                         )} />
                         <div className='flex items-center gap-x-2'>
@@ -131,4 +144,4 @@ const ChapterDescriptionForm = ({ initialData, courseId ,chapterId}: ChapterDesc
     )
 }
 
-export default ChapterDescriptionForm
+export default ChapterAccessForm
