@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2, Pencil, PlusCircle, VideoIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import MuxPlayer from "@mux/mux-player-react"
 
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -100,7 +101,10 @@ const VideoForm = ({ initialData, courseId, chapterId }: VideoFormProps) => {
                         </div>
                     ) : (
                         <div className='relative aspect-video mt-2 '>
-                            Video Uploaded!
+                          <MuxPlayer
+                          playbackId={initialData?.muxData?.playbackId||""}
+                          
+                          />
                         </div>
                     )
                 )

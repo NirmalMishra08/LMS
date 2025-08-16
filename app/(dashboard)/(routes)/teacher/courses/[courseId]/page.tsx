@@ -12,6 +12,8 @@ import CategoryForm from './_components/category-form';
 import PriceForm from './_components/price-form';
 import AttachmentForm from './_components/attachment-form';
 import ChapterForm from './_components/chapter-form';
+import Banner from '@/components/banner';
+import Actions from './_components/Actions';
 
 
 const Page = async ({ params }: { params: { courseId: string } }) => {
@@ -67,8 +69,12 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
 
     const completionTexts = `(${completedFields}/${totalFields})`
 
+    const isComplete = requireField.every(Boolean); 
+
 
     return (
+        <>
+        {!course.isPublished&& <Banner label='This Course is Unpublished This will not be visible to the students'  />}
         <div className='flex  gap-y-6'>
 
 
@@ -83,6 +89,17 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
                         </span>
 
                     </div>
+                    {/* Add actions */}
+
+                    <Actions
+                    disabled={!isComplete}
+                    courseId={paramsId.courseId}
+                    isPublished={course.isPublished}
+                    />
+
+
+
+
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-7 mt-16'>
                         <div>
                             <div className='flex items-center gap-x-2'>
@@ -140,6 +157,7 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
