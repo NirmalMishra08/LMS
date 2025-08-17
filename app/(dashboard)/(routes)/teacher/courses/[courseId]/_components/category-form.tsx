@@ -68,7 +68,7 @@ const CategoryForm = ({ initialData, courseId , options }: CategoryFormProps) =>
     return (
         <div className='mt-6 border bg-slate-100 rounded-md p-4'>
             <div className='font-medium flex items-center justify-between gap-1    '>
-                Course Description
+                Course Category
                 <Button onClick={toggleEdit} variant={"ghost"}>
                     {
                         isEditing ? (
@@ -78,7 +78,7 @@ const CategoryForm = ({ initialData, courseId , options }: CategoryFormProps) =>
                         ) : (
                             <>
                                 <Pencil className='h-4 w-4 mr-2' />
-                                Edit Description
+                                Edit Category
                             </>
                         )
                     }

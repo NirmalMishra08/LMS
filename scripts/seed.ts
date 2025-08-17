@@ -7,11 +7,12 @@ async function main() {
         await database.category.createMany({
             data: [
                 { name: "Computer Science" },
-                { name: "Mathematics" },
-                { name: "Physics" },
-                { name: "Chemistry" },
-                { name: "Biology" },
-
+                { name: "Music" },
+                { name: "Fitness" },
+                { name: "Photography" },
+                { name: "Accounting" },
+                { name: "Engineering" },
+                { name: "Filming" }
             ]
         })
         console.log("Categories seeded successfully.");
