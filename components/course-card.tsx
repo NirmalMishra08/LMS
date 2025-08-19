@@ -16,7 +16,7 @@ interface CourseCardProps {
 }
 export const CourseCard = ({ id, title, imageUrl, price, progress, chapterLength, category }: CourseCardProps) => {
     return (
-        <Link href={`/course/${id}`} className="group hover:shadow-sm trainsition overflow-hidden border rounded-lg p-3 h-full ">
+        <Link href={`/courses/${id}`} className="group hover:shadow-sm trainsition overflow-hidden border rounded-lg p-3 h-full ">
             <div className="relative w-full aspect-video rounded-md overflow-hidden">
                 <Image
                     fill
