@@ -1,21 +1,19 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Course } from "@prisma/client"
+
 import { ColumnDef } from "@tanstack/react-table"
-import { count } from "console"
-import { ArrowUpDown, Ghost, MoreHorizontal, Pencil } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { Course } from "@/prisma/lib/generated/prisma"
 
 
 // This type is used to define the shape of our data.

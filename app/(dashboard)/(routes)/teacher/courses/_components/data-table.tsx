@@ -23,7 +23,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent } from "@radix-ui/react-dropdown-menu"
 import Link from "next/link"
 import { PlusCircle } from "lucide-react"
 

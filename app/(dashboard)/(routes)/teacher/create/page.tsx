@@ -13,7 +13,7 @@ import toast from 'react-hot-toast'
 
 
 
-const page = () => {
+const Page = () => {
 
     const router = useRouter();
 
@@ -91,4 +91,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

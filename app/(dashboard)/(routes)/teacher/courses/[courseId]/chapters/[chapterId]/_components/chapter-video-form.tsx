@@ -2,10 +2,7 @@
 import React, { useState } from 'react'
 import * as z from "zod"
 import { Chapter, MuxData } from '@/prisma/lib/generated/prisma'
-import { useForm } from "react-hook-form"
-
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2, Pencil, PlusCircle, VideoIcon } from 'lucide-react'
+import {  Pencil, PlusCircle, VideoIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import MuxPlayer from "@mux/mux-player-react"
 
@@ -13,7 +10,7 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
-import Image from 'next/image'
+
 import { FileUpload } from '@/components/file-upload'
 
 
@@ -36,18 +33,10 @@ const VideoForm = ({ initialData, courseId, chapterId }: VideoFormProps) => {
     const router = useRouter();
 
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            videoUrl: initialData.videoUrl || ""
-        }
-    })
-
-    const { isSubmitting, isValid } = form.formState;
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
         try {
-            console.log(values)
+            formSchema.parse(values);
             await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
 
             toast.success("Chapter Updated");

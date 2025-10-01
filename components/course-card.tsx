@@ -1,9 +1,12 @@
-import { Category, Course } from "@prisma/client"
 import Image from "next/image";
 import Link from "next/link";
 import { Iconbadge } from "./icon-badge";
 import { BookOpen } from "lucide-react";
 import { formatPrice } from "@/lib/format";
+import CourseProgress from "./course-progress";
+import { getProgress } from "@/actions/get-progress";
+import { auth } from "@clerk/nextjs/server";
+
 
 interface CourseCardProps {
     id: string;
@@ -14,9 +17,11 @@ interface CourseCardProps {
     chapterLength: number;
     category: string | null;
 }
-export const CourseCard = ({ id, title, imageUrl, price, progress, chapterLength, category }: CourseCardProps) => {
+export const CourseCard = async ({ id, title, imageUrl, price, progress, chapterLength, category }: CourseCardProps) => {
+    const { userId } = await auth();
+    const progressCount = userId ? await getProgress(userId, id) : 0;
     return (
-        <Link href={`/course/${id}`} className="group hover:shadow-sm trainsition overflow-hidden border rounded-lg p-3 h-full ">
+        <Link href={`/courses/${id}`} className="group hover:shadow-sm trainsition overflow-hidden border rounded-lg p-3 h-full ">
             <div className="relative w-full aspect-video rounded-md overflow-hidden">
                 <Image
                     fill
@@ -40,11 +45,11 @@ export const CourseCard = ({ id, title, imageUrl, price, progress, chapterLength
                 </div>
                 {progress !== null ? (
                     <div className="text-xs text-muted-foreground">
-                        TODO : Progress Component
+                        <CourseProgress variant="success" value={progressCount} />
                     </div>
-                ):(
+                ) : (
                     <p className="text-md md:text-sm font-medium text-slate-700 ">
-                       {formatPrice(price ?? 0)}
+                        {formatPrice(price ?? 0)}
                     </p>
                 )}
             </div>

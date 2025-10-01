@@ -32,7 +32,7 @@ const formSchema = z.object({
 
 const ChapterForm = ({ initialData, courseId }: ChapterFormProps) => {
     const [isCreating, setIsCreating] = useState(false);
-    const [isUpdating, setIsupdating] = useState(false)
+    const [, setIsupdating] = useState(false)
 
     const toggleCreating = () => {
         setIsCreating((current) => !current)
@@ -58,28 +58,30 @@ const ChapterForm = ({ initialData, courseId }: ChapterFormProps) => {
             toggleCreating();
             router.refresh();
 
-        } catch {
+        } catch (error) {
             toast.error("Something went wrong");
+            console.log(error);
         }
     }
 
     const onReorder = async (updateData: { id: string, position: number }[]) => {
-             try {
-                setIsupdating(true)
-                await axios.put(`/api/courses/${courseId}/chapters/reorder`,{
-                    list:updateData
-                })
-                toast.success("Chapter Reordered")
-                router.refresh()
-                
-             } catch (error) {
-                toast.error("Something went Wrong")
-             }finally{
-                setIsupdating(false)
-             }
+        try {
+            setIsupdating(true)
+            await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+                list: updateData
+            })
+            toast.success("Chapter Reordered")
+            router.refresh()
+
+        } catch (error) {
+            toast.error("Something went Wrong")
+            console.log(error)
+        } finally {
+            setIsupdating(false)
+        }
     }
 
-    const onEdit =(id:string)=>{
+    const onEdit = (id: string) => {
         router.push(`/teacher/courses/${courseId}/chapters/${id}`)
     }
 
