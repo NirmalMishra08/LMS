@@ -10,6 +10,8 @@ import { Preview } from '@/components/preview';
 import { File } from 'lucide-react';
 import CourseProgressButton from './_components/course-progress-button';
 
+
+
 const page = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
     const { userId } = await auth();
 
@@ -87,14 +89,14 @@ const page = async ({ params }: { params: { courseId: string, chapterId: string 
                                 isCompleted={!!userProgress?.isCompleted}
                             />
                         ) : (
-                           <CourseEnrollButton price={course.price!} courseId={courseId} />
+                            <CourseEnrollButton price={course.price!} courseId={courseId} />
 
                         )
                     }
                 </div>
                 <Separator />
                 <div>
-                   <Preview value={chapter.description ?? ""} />
+                    <Preview value={chapter.description ?? ""} />
 
                 </div>
                 {

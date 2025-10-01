@@ -65,7 +65,7 @@ const chapterIdPage = async ({ params }: { params: { courseId: string, chapterId
                 <div className='w-full'>
                     <Link href={`/teacher/courses/${courseId}/`} className='flex items-center text-sm hover:opacity-75 transition mb-6 '>
                         <ArrowLeft className='h-4 w-4 mr-2' />
-                        Back to Course setup {chapterId}
+                        Back to Course setup 
                     </Link>
                     <div className='flex items-center justify-between w-full '>
                         <div className='flex flex-col gap-y-2'>

@@ -9,15 +9,17 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
         if (!user || !user.id || !user.emailAddresses?.[0]?.emailAddress) {
             return new Response("Unauthorized", { status: 401 });
         }
+
+        const { courseId } = await params;
         const course = await db.course.findUnique({
-            where: { id: params.courseId, isPublished: true }
+            where: { id:courseId, isPublished: true }
         });
 
         const purchase = await db.purchase.findUnique({
             where: {
                 userId_courseId: {
                     userId: user.id,
-                    courseId: params.courseId
+                    courseId: courseId
                 }
             }
         });
