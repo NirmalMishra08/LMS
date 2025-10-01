@@ -36,12 +36,6 @@ const VideoForm = ({ initialData, courseId, chapterId }: VideoFormProps) => {
     const router = useRouter();
 
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            videoUrl: initialData.videoUrl || ""
-        }
-    })
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
         try {
