@@ -66,7 +66,7 @@ const page = async ({ params }: { params: { courseId: string, chapterId: string 
                         courseId={courseId}
                         title={chapter.title}
                         nextChapterId={nextChapter?.id}
-                        muxData={muxData?.playbackId!}
+                        muxData={muxData?.playbackId ?? ""}
                         isLocked={isLocked}
                         completeOnEnd={completeOnEnd}
 
@@ -79,21 +79,23 @@ const page = async ({ params }: { params: { courseId: string, chapterId: string 
                     </h2>
                     {
                         purchase ? (
-                           
+
                             <CourseProgressButton
-                            chapterId={chapterId}
-                            courseId={courseId}
-                            nextChapterId={nextChapter?.id}
-                            isCompleted={!!userProgress?.isCompleted}
+                                chapterId={chapterId}
+                                courseId={courseId}
+                                nextChapterId={nextChapter?.id}
+                                isCompleted={!!userProgress?.isCompleted}
                             />
                         ) : (
-                            <CourseEnrollButton price={course.price!} courseId={courseId} />
+                           <CourseEnrollButton price={course.price!} courseId={courseId} />
+
                         )
                     }
                 </div>
                 <Separator />
                 <div>
-                    <Preview value={chapter.description!} />
+                   <Preview value={chapter.description ?? ""} />
+
                 </div>
                 {
                     !!attachment.length && (

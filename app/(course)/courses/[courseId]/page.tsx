@@ -1,6 +1,5 @@
 import { db } from '@/lib/db'
 import { redirect } from 'next/navigation'
-import React from 'react'
 
 const Page = async ({ params }: { params: { courseId: string } }) => {
     const { courseId } = await params

@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import * as z from "zod"
-import { Course } from '@/prisma/lib/generated/prisma'
+import { Attachment, Course } from '@/prisma/lib/generated/prisma'
 
 import { File, Loader2, PlusCircle, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,6 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
 import { FileUpload } from '@/components/file-upload'
-import { Attachment } from '@prisma/client'
 
 
 interface AttachmentFormProps {
@@ -35,7 +34,7 @@ const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
         try {
-            console.log(values)
+            formSchema.parse(values); 
             await axios.post(`/api/courses/${courseId}/attachments`, values);
 
             toast.success("Course Updated");

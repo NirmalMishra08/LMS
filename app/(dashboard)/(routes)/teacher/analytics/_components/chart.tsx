@@ -1,7 +1,7 @@
 "use client"
 import { Card } from '@/components/ui/card';
 import React from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 
 interface ChartProps {
     data: {

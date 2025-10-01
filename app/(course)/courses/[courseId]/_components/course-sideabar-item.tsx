@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import { CheckCircle, Lock, PlayCircle } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
-import { isatty } from "tty";
 
 interface CourseSidebarItemProps {
     id: string;

@@ -5,7 +5,6 @@ import { formatPrice } from "@/lib/format"
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { set } from "zod";
 
 interface CourseEnrollButtonProps {
     price: number;
@@ -23,6 +22,7 @@ export const CourseEnrollButton = ({ price, courseId }: CourseEnrollButtonProps)
             window.location.assign(response.data.url);
         } catch (error) {
             toast.error("Something went wrong")
+            console.log(error);
         } finally {
             setIsLoading(false);
         }

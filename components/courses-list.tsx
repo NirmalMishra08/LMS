@@ -19,15 +19,16 @@ const CoursesList = ({ items }: CourseListProps) => {
                 {items.map((item) => {
                     return (
                         <CourseCard
-                        key={item.id}
-                        id={item.id}
-                        price={item.price!}
-                        title={item.title}
-                        imageUrl = {item.imageUrl!}
-                        progress={item.progress}
-                        chapterLength ={item.chapters.length}
-                        category={item?.category?.name!}
-                         />
+                            key={item.id}
+                            id={item.id}
+                            price={item.price!}
+                            title={item.title}
+                            imageUrl={item.imageUrl!}
+                            progress={item.progress}
+                            chapterLength={item.chapters.length}
+                            category={item.category?.name ?? "Uncategorized"}
+
+                        />
                     )
                 })}
             </div>

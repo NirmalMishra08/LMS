@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import * as z from "zod"
 import { Chapter } from '@/prisma/lib/generated/prisma'
 import { useForm } from "react-hook-form"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem } from '@/components/ui/form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Pencil } from 'lucide-react'
@@ -14,10 +14,6 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-
-import { Editor } from '@/components/editor'
-
-import { Preview } from '@/components/preview'
 import { Checkbox } from '@/components/ui/checkbox'
 
 

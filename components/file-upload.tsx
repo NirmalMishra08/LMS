@@ -10,7 +10,7 @@ interface FileUploadProps {
 }
 
 export const FileUpload = ({ onChange, endpoint }: FileUploadProps) => {
-  const [isUploading, setIsUploading] = useState(false);
+  const [, setIsUploading] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center">

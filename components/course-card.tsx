@@ -5,7 +5,6 @@ import { BookOpen } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import CourseProgress from "./course-progress";
 import { getProgress } from "@/actions/get-progress";
-import { useAuth } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 
 

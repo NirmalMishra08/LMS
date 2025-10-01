@@ -1,7 +1,7 @@
 "use client"
 
 
-import { LogOut, Search } from 'lucide-react';
+import {  Search } from 'lucide-react';
 import { Input } from './ui/input';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -18,7 +18,6 @@ const SearchInput = () => {
     const pathname = usePathname();
 
     const currentCategoryId = searchParams.get("categoryId");
-    const currentTitle = searchParams.get("title");
 
 
     useEffect(() => {

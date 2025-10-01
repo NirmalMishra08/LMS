@@ -17,7 +17,7 @@ const CourseProgressButton = ({ chapterId, courseId, nextChapterId, isCompleted 
     const Icon = isCompleted ? XCircle : CheckCircle;
     const router = useRouter();
     const confetti = useConfettiStore();
-    const [isLoading, setIsLoading] = useState(false);
+    const [, setIsLoading] = useState(false);
 
     const onClick = async () => {
         try {

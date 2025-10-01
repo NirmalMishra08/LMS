@@ -20,7 +20,7 @@ interface VideoPlayersProps {
     playbackId?: string;
 }
 
-const VideoPlayer = ({ muxData, title, isLocked, completeOnEnd, courseId, chapterId, playbackId, nextChapterId }: VideoPlayersProps) => {
+const VideoPlayer = ({ muxData, title, isLocked, completeOnEnd, courseId, chapterId, nextChapterId }: VideoPlayersProps) => {
     const [isReady, setIsReady] = useState(false)
     const router = useRouter();
     const confetti = useConfettiStore();

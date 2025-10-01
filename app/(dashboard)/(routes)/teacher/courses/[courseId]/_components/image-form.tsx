@@ -43,7 +43,7 @@ const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
         }
     })
 
-    const { isSubmitting, isValid } = form.formState;
+    const { isSubmitting } = form.formState;
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
 
         try {

@@ -98,7 +98,7 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
 export async function PATCH(req: Request, { params }: { params: { courseId: string, chapterId: string } }) {
     try {
         const { userId } = await auth();
-        const { isPublished, ...values } = await req.json()
+        const {  ...values } = await req.json()
         const { courseId, chapterId } = await params;
         if (!userId) {
             return new NextResponse("Unauthorized ", { status: 401 })

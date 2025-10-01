@@ -1,8 +1,7 @@
 import React from 'react'
-import { AlertTriangle, CheckCircleIcon, Icon } from 'lucide-react'
+import { AlertTriangle, CheckCircleIcon } from 'lucide-react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
-import { Iconbadge } from './icon-badge'
 
 const bannerVariants = cva(
     "border text-center p-4 text-sm flex items-center w-full",
