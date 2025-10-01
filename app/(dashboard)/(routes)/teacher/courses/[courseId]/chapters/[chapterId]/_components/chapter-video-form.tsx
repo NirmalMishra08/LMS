@@ -2,9 +2,6 @@
 import React, { useState } from 'react'
 import * as z from "zod"
 import { Chapter, MuxData } from '@/prisma/lib/generated/prisma'
-import { useForm } from "react-hook-form"
-
-import { zodResolver } from '@hookform/resolvers/zod'
 import {  Pencil, PlusCircle, VideoIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import MuxPlayer from "@mux/mux-player-react"
