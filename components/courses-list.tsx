@@ -1,6 +1,6 @@
 import React from 'react'
-import { Category, Course } from '@prisma/client'
 import { CourseCard } from './course-card';
+import { Category, Course } from '@/prisma/lib/generated/prisma';
 
 type CourseListPropsWithCategory = Course & {
     category: Category | null;

@@ -35,7 +35,7 @@ const page = async ({
 
   const searchParms = await searchParams;
 
-  const courses = await getCourses({ userId, ...searchParams })
+  const courses = await getCourses({ userId, ...searchParms })
 
 
   return (

@@ -35,7 +35,7 @@ const chapterIdPage = async ({ params }: { params: { courseId: string, chapterId
         return redirect("/");
     }
 
-    const requireField = [
+    const requireField = [ 
 
         chapter.title,
         chapter.description,

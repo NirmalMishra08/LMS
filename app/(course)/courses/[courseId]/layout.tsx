@@ -12,9 +12,11 @@ const CourseLayout = async ({ children, params }: { children: React.ReactNode, p
         return redirect("/");
     }
 
+    const { courseId } = await params
+
     const course = await db.course.findUnique({
         where: {
-            id: params.courseId,
+            id: courseId,
 
         },
         include: {
@@ -46,13 +48,14 @@ const CourseLayout = async ({ children, params }: { children: React.ReactNode, p
 
 
 
+
     return (
         <div className="h-full ">
             <div className="h-[80px] w-full md:pl-80 fixed inset-y-0 z-50">
                 <CourseMobileSidebar
-                course={course}
-                progressCount={progressCount}
-                 />
+                    course={course}
+                    progressCount={progressCount}
+                />
                 <CourseNavbar
                     course={course}
                     progressCount={progressCount}
