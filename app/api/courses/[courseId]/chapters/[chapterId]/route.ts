@@ -1,21 +1,17 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import Mux from '@mux/mux-node';
-
-
- export const mux = new Mux({
-    tokenId: process.env.MUX_TOKEN_ID!,
-    tokenSecret: process.env.MUX_TOKEN_SECRET!
-});
+import { mux } from "@/lib/mux"
 
 
 
-
-export async function DELETE(req: Request, { params }: { params: { courseId: string, chapterId: string } }){
+export async function DELETE(
+    req: Request,
+    { params }: { params: Promise<{ courseId: string; chapterId: string }> }
+) {
     try {
         const { courseId, chapterId } = await params;
-        const {userId} = await auth();
+        const { userId } = await auth();
         if (!userId) {
             return new NextResponse("Unauthorized ", { status: 401 })
         }
@@ -32,62 +28,62 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
         }
 
         const chapter = await db.chapter.findUnique({
-            where:{
-                id:chapterId,
-                courseId:courseId
+            where: {
+                id: chapterId,
+                courseId: courseId
             }
         })
-        if(!chapter){
+        if (!chapter) {
             return new NextResponse("Not found", { status: 404 })
         }
 
-        if(chapter.videoUrl){
-           const existingMuxData = await db.muxData.findFirst({
-            where:{
-                chapterId:chapterId
-            }
-           })
-
-           if(existingMuxData){
-            await mux.video.assets.delete(existingMuxData.assetId)
-            await db.muxData.delete({
-                where:{
-                    id:existingMuxData.id
+        if (chapter.videoUrl) {
+            const existingMuxData = await db.muxData.findFirst({
+                where: {
+                    chapterId: chapterId
                 }
             })
-           }
+
+            if (existingMuxData) {
+                await mux.video.assets.delete(existingMuxData.assetId)
+                await db.muxData.delete({
+                    where: {
+                        id: existingMuxData.id
+                    }
+                })
+            }
         }
 
 
         const deletedChapter = await db.chapter.delete({
-            where:{
-                id:chapterId
+            where: {
+                id: chapterId
             }
         })
 
         const publishedChapterInCourse = await db.chapter.findMany({
-            where:{
-                courseId:courseId,
-                isPublished:true
+            where: {
+                courseId: courseId,
+                isPublished: true
             }
         })
 
-        if(!publishedChapterInCourse.length){
+        if (!publishedChapterInCourse.length) {
             await db.course.update({
-                where:{
-                    id:courseId
+                where: {
+                    id: courseId
                 },
-                data:{
-                    isPublished:false
+                data: {
+                    isPublished: false
                 }
             })
         }
 
         return NextResponse.json(deletedChapter)
-       
+
     } catch (error) {
-      console.log('[CHAPTER_ID_DELETE]',error);
-      return new NextResponse("Internal Error",{status:500})
+        console.log('[CHAPTER_ID_DELETE]', error);
+        return new NextResponse("Internal Error", { status: 500 })
     }
 }
 
@@ -95,10 +91,13 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
 
 
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string, chapterId: string } }) {
+export async function PATCH(
+    req: Request,
+    { params }: { params: Promise<{ courseId: string; chapterId: string }> }
+) {
     try {
         const { userId } = await auth();
-        const {  ...values } = await req.json()
+        const { ...values } = await req.json()
         const { courseId, chapterId } = await params;
         if (!userId) {
             return new NextResponse("Unauthorized ", { status: 401 })

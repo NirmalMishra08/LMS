@@ -3,11 +3,11 @@ import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server";
 
 
-export const PUT = async (req: Request, { params }: { params: { courseId: string } }) => {
+export const PUT = async (req: Request, { params }: { params: Promise<{ courseId: string }> }) => {
     try {
         const { userId } = await auth();
 
-        const courseId = await params.courseId;
+        const { courseId } = await params
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
@@ -35,7 +35,7 @@ export const PUT = async (req: Request, { params }: { params: { courseId: string
             })
         }
 
-        return new NextResponse("Success", { status: 200 }); 
+        return new NextResponse("Success", { status: 200 });
 
 
 

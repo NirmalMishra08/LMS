@@ -3,7 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { currentUser } from "@clerk/nextjs/server";
 import Stripe from "stripe";
 
-export async function POST(req: Request, { params }: { params: { courseId: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const user = await currentUser();
         if (!user || !user.id || !user.emailAddresses?.[0]?.emailAddress) {
@@ -12,7 +12,7 @@ export async function POST(req: Request, { params }: { params: { courseId: strin
 
         const { courseId } = await params;
         const course = await db.course.findUnique({
-            where: { id:courseId, isPublished: true }
+            where: { id: courseId, isPublished: true }
         });
 
         const purchase = await db.purchase.findUnique({

@@ -1,4 +1,4 @@
-import { Category, Course } from "@prisma/client";
+import { Category,Course } from "@/prisma/lib/generated/prisma";
 import { getProgress } from "./get-progress";
 import { db } from "@/lib/db";
 

@@ -12,7 +12,7 @@ import VideoForm from './_components/chapter-video-form';
 import Banner from '@/components/banner';
 import ChapterActions from './_components/chapter-actions';
 
-const chapterIdPage = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
+const chapterIdPage = async ({ params }: { params: Promise<{ courseId: string, chapterId: string }> }) => {
     const { userId } = await auth();
 
     const { courseId, chapterId } = await params

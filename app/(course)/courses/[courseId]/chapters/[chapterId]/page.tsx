@@ -12,7 +12,7 @@ import CourseProgressButton from './_components/course-progress-button';
 
 
 
-const page = async ({ params }: { params: { courseId: string, chapterId: string } }) => {
+const page = async ({ params }: { params: Promise<{ courseId: string, chapterId: string }> }) => {
     const { userId } = await auth();
 
     if (!userId) {

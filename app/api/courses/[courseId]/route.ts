@@ -1,9 +1,9 @@
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server";
-import { mux } from "./chapters/[chapterId]/route";
+import { mux } from "@/lib/mux"
 
-export async function DELETE(req: Request, { params }: { params: { courseId: string } }) {
+export async function DELETE(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const { userId } = await auth();
         if (!userId) {
@@ -12,12 +12,12 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
 
         const course = await db.course.findUnique({
             where: {
-                id: params.courseId,
+                id: (await params).courseId,
                 userId
             },
-            include:{
-                chapters:{
-                    include:{
+            include: {
+                chapters: {
+                    include: {
                         muxData: true
                     }
                 }
@@ -37,10 +37,10 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
 
         const deletedCourse = await db.course.delete({
             where: {
-                id: params.courseId,
+                id: (await params).courseId,
                 userId
             }
-        }); 
+        });
 
         return NextResponse.json(deletedCourse);
 
@@ -50,7 +50,7 @@ export async function DELETE(req: Request, { params }: { params: { courseId: str
     }
 }
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
     try {
         const { userId } = await auth();
         console.log(userId)
@@ -59,9 +59,9 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
         if (!userId) {
             return new Response("Unauthorized", { status: 401 })
         }
-        const courseId = await params.courseId;
+        const courseId = (await params).courseId;
 
-         await db.course.update({
+        await db.course.update({
             where: {
                 id: courseId
             },
