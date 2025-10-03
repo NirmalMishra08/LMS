@@ -1,6 +1,5 @@
 "use client"
 
-import { Category } from "@prisma/client"
 import {
     FcEngineering,
     FcFilmReel,
@@ -12,6 +11,7 @@ import {
 } from "react-icons/fc"
 import { IconType } from "react-icons/lib"
 import CategoryItem from "./category-item";
+import { Category } from "@/prisma/lib/generated/prisma";
 
 interface CategoriesProps {
     items: Category[],

@@ -1,15 +1,13 @@
 "use client"
 
-
-import {  Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Input } from './ui/input';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import qs from "query-string"
 
-
-const SearchInput = () => {
+function SearchInputContent() {
     const [value, setValue] = useState("")
     const debouncedValue = useDebounce(value);
 
@@ -18,7 +16,6 @@ const SearchInput = () => {
     const pathname = usePathname();
 
     const currentCategoryId = searchParams.get("categoryId");
-
 
     useEffect(() => {
         const url = qs.stringifyUrl({
@@ -31,13 +28,33 @@ const SearchInput = () => {
         router.push(url);
     }, [debouncedValue, currentCategoryId, pathname, router])
 
-
-return (
-    <div className='relative'>
-
-        <Search className='h-4 w-4 a absolute top-3 left-3 text-slate-600' />
-        <Input onChange={(e)=>setValue(e.target.value)} className='w-full md:w-[300px] pl-9 rounded-full bg-slate-100 focus-visible:ring-slate-200 ' placeholder='Search for a Course...' />
-    </div>
-)
+    return (
+        <div className='relative'>
+            <Search className='h-4 w-4 absolute top-3 left-3 text-slate-600' />
+            <Input 
+                onChange={(e) => setValue(e.target.value)} 
+                className='w-full md:w-[300px] pl-9 rounded-full bg-slate-100 focus-visible:ring-slate-200' 
+                placeholder='Search for a Course...' 
+            />
+        </div>
+    )
 }
-export default SearchInput
+
+const SearchInput = () => {
+    return (
+        <Suspense fallback={
+            <div className='relative'>
+                <Search className='h-4 w-4 absolute top-3 left-3 text-slate-600' />
+                <Input 
+                    className='w-full md:w-[300px] pl-9 rounded-full bg-slate-100 focus-visible:ring-slate-200' 
+                    placeholder='Search for a Course...'
+                    disabled 
+                />
+            </div>
+        }>
+            <SearchInputContent />
+        </Suspense>
+    );
+};
+
+export default SearchInput;

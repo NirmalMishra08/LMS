@@ -2,10 +2,10 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-
-
-
-export async function PATCH(req: Request, { params }: { params: { courseId: string, chapterId: string } }) {
+export async function PATCH(
+    req: Request, 
+    { params }: { params: Promise<{ courseId: string; chapterId: string }> }
+) {
     try {
         const { courseId, chapterId } = await params;
         const { userId } = await auth();
@@ -20,10 +20,10 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
                 userId
             }
         });
+        
         if (!ownCourse) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
-
 
         const chapter = await db.chapter.findUnique({
             where: {
@@ -42,7 +42,6 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
             return new NextResponse("Missing Fields", { status: 400 })
         }
 
-
         const publishedChapter = await db.chapter.update({
             where: {
                 id: chapterId,
@@ -55,12 +54,8 @@ export async function PATCH(req: Request, { params }: { params: { courseId: stri
 
         return NextResponse.json(publishedChapter)
 
-
-
-
     } catch (error) {
         console.log("[Chapter Publish]", error)
         return new NextResponse("Internal Error", { status: 500 })
     }
-
 }

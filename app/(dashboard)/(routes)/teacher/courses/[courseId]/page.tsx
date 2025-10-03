@@ -14,7 +14,7 @@ import ChapterForm from './_components/chapter-form';
 import Banner from '@/components/banner';
 import Actions from './_components/Actions';
 
-const Page = async ({ params }: { params: { courseId: string } }) => {
+const Page = async ({ params }: { params: Promise<{ courseId: string }> }) => {
   const { userId } = await auth();
   if (!userId) return redirect("/");
 

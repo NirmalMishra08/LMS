@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { CourseSidebar } from "./_components/course-sidebar";
 import { CourseNavbar } from "./_components/course-navbar";
 import { CourseMobileSidebar } from "./_components/course-mobile-sidebar";
-const CourseLayout = async ({ children, params }: { children: React.ReactNode, params: { courseId: string } }) => {
+const CourseLayout = async ({ children, params }: { children: React.ReactNode, params: Promise<{ courseId: string }> }) => {
 
     const { userId } = await auth();
     if (!userId) {
@@ -57,8 +57,6 @@ const CourseLayout = async ({ children, params }: { children: React.ReactNode, p
                     progressCount={progressCount}
                 />
                 <CourseNavbar
-                    course={course}
-                    progressCount={progressCount}
                 />
             </div>
             <div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50">

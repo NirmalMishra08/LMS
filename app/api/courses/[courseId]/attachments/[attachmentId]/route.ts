@@ -1,37 +1,42 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { auth } from "@clerk/nextjs/server"
-export async function DELETE(req: Request, { params }: { params: { attachmentId: string, courseId: string } }) {
-    try {
 
-        const {attachmentId,courseId} =  await params;
+export async function DELETE(
+    req: NextRequest,
+    { params }: { params: Promise<{ courseId: string; attachmentId: string }> }
+) {
+    try {
         const { userId } = await auth();
+
         if (!userId) {
-            return new NextResponse("Authentication Error", { status: 401 })
+            return new NextResponse("Authentication Error", { status: 401 });
         }
 
-        const courseOwner = await db.course.findUnique({
+        // Await the params
+        const { courseId, attachmentId } = await params;
+
+        const course = await db.course.findUnique({
             where: {
                 id: courseId,
                 userId: userId
-
             }
-        })
-        if (!courseOwner) {
-            return new NextResponse("Authentication Error", { status: 401 })
+        });
+
+        if (!course) {
+            return new NextResponse("Unauthorized", { status: 401 });
         }
-       
-        const attachment = await db.attachment.delete({
-            where:{
-                courseId:courseId,
-                id:attachmentId
-            }
-        })
 
-        return new NextResponse("Deleted Successfully",attachment)
+        const attachment = await db.attachment.delete({
+            where: {
+                id: attachmentId
+            }
+        });
+
+        return NextResponse.json({ message: "Deleted Successfully", attachment });
 
     } catch (error) {
-        console.log("Error in Deleting" + error)
-        return new NextResponse("Internal Server Error", { status: 500 })
+        console.error("[ATTACHMENT_DELETE]", error);
+        return new NextResponse("Internal Server Error", { status: 500 });
     }
 }

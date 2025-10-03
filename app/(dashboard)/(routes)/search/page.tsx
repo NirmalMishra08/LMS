@@ -10,10 +10,10 @@ import CoursesList from '@/components/courses-list'
 
 
 interface SearchPageProps {
-  searchParams: {
+  searchParams: Promise<{
     title: string;
     categoryId: string
-  }
+  }>
 }
 
 const page = async ({

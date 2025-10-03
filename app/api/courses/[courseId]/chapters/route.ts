@@ -3,11 +3,11 @@ import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server";
 
 
-export const POST = async (req: Request, { params }: { params: { courseId: string } }) => {
+export const POST = async (req: Request, { params }: { params: Promise<{ courseId: string }> }) => {
     try {
         const { userId } = await auth();
         const { title } = await req.json();
-        const courseId = await params.courseId;
+        const { courseId } = await params;
         if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 })
         }
@@ -34,10 +34,10 @@ export const POST = async (req: Request, { params }: { params: { courseId: strin
         const newPosition = lastChaper ? lastChaper.position + 1 : 1;
 
         const chapter = await db.chapter.create({
-            data:{
+            data: {
                 title,
                 courseId,
-                position:newPosition
+                position: newPosition
             }
         })
 
@@ -45,8 +45,8 @@ export const POST = async (req: Request, { params }: { params: { courseId: strin
 
 
 
-   } catch (error) {
-        console.log("Chapter",error)
+    } catch (error) {
+        console.log("Chapter", error)
         return new NextResponse("Server Error", { status: 500 })
 
     }
